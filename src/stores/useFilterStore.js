@@ -32,6 +32,16 @@ const timeSlots = [
   { value: 5, text: "8PM-Midnight" },
 ];
 
+const days = [
+  { value: 0, text: "Sunday" },
+  { value: 1, text: "Monday" },
+  { value: 2, text: "Tuesday" },
+  { value: 3, text: "Wednesday" },
+  { value: 4, text: "Thursday" },
+  { value: 5, text: "Friday" },
+  { value: 6, text: "Saturday" },
+];
+
 const tiers = [
   { value: 1, text: "1" },
   { value: 2, text: "2" },
@@ -65,6 +75,10 @@ function slotFilterFn(gameData, slots) {
   return slots.length === 0 || slots.some((s) => s === gameData.slot);
 }
 
+function dayFilterFn(gameData, days) {
+  return days.length === 0 || days.some((s) => s === gameData.day);
+}
+
 function nameFilterFn(gameData, activeName) {
   return activeName
     ? (gameData.players &&
@@ -85,8 +99,15 @@ function nameFilterFn(gameData, activeName) {
     : true;
 }
 
-function filterGames(data, activeName, slot, realms, variants, tiers, playTests, streaming) {
-  if (slot?.length > 0 || activeName?.length > 0 || realms?.length > 0 || variants?.length > 0 || tiers?.length > 0) {
+function filterGames(data, activeName, day, slot, realms, variants, tiers, playTests, streaming) {
+  if (
+    day?.length > 0 ||
+    slot?.length > 0 ||
+    activeName?.length > 0 ||
+    realms?.length > 0 ||
+    variants?.length > 0 ||
+    tiers?.length > 0
+  ) {
     //tier fn is odd, becuse we have games that can span ranges, and people can seelct multiple different tiers
     //would be nice to have a jest test setup, but logic is if:
     // 1) game min >= tier min AND
@@ -106,6 +127,7 @@ function filterGames(data, activeName, slot, realms, variants, tiers, playTests,
     return data.filter((gameData) => {
       return (
         slotFilterFn(gameData, slot) &&
+        dayFilterFn(gameData, day) &&
         nameFilterFn(gameData, activeName) &&
         realmFilterFn(gameData, realms) &&
         variantFilterFn(gameData, variants) &&
@@ -128,6 +150,9 @@ const useFilterStore = create(
       allTimeSlots: timeSlots,
       slots: [],
       setSlots: (sl) => set({ slots: sl }),
+      allDays: days,
+      days: [],
+      setDays: (dys) => set({ days: dys }),
       name: undefined,
       setName: (nm) => set({ name: nm }),
       allVariants: variants,
@@ -141,7 +166,17 @@ const useFilterStore = create(
       streaming: undefined,
       setStreaming: (st) => set({ streaming: st === "" || st === undefined ? undefined : st === "true" }),
       filter: (games) =>
-        filterGames(games, get().name, get().slots, get().realms, get().variants, get().tiers, get().playTest, get().streaming),
+        filterGames(
+          games,
+          get().name,
+          get().days,
+          get().slots,
+          get().realms,
+          get().variants,
+          get().tiers,
+          get().playTest,
+          get().streaming,
+        ),
     }),
     {
       name: SHOW_KEY_PREFIX,

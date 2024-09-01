@@ -41,8 +41,8 @@ function DiscordButton({ children }) {
 
 export default function Calendar() {
   const user = useUserStore((s) => s.user);
-  const [name, slots, realms, filter, variants, tiers, playTest, streaming] = useFilterStore(
-    useShallow((s) => [s.name, s.slots, s.realms, s.filter, s.variants, s.tiers, s.playTest, s.streaming]),
+  const [name, days, slots, realms, filter, variants, tiers, playTest, streaming] = useFilterStore(
+    useShallow((s) => [s.name, s.days, s.slots, s.realms, s.filter, s.variants, s.tiers, s.playTest, s.streaming]),
   );
 
   const { data, isLoading, joinGame, dropGame } = useGames();
@@ -64,7 +64,7 @@ export default function Calendar() {
       ];
     }
     return filter(data);
-  }, [isLoading, data, filter, name, slots, realms, variants, tiers, user, playTest, streaming]);
+  }, [isLoading, data, filter, name, days, slots, realms, variants, tiers, user, playTest, streaming]);
 
   const lastDate = useMemo(() => {
     return data?.map((a) => a.datetime).reverse()[0] || new Date();

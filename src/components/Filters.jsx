@@ -4,13 +4,11 @@ import {
   Autocomplete,
   Box,
   Button,
-  Checkbox,
   Drawer,
   FormControl,
   RadioGroup,
   Radio,
   FormControlLabel,
-  FormHelperText,
   FormLabel,
   TextField,
   Typography,
@@ -43,6 +41,7 @@ function Filters() {
   const user = useUserStore((s) => s.user);
   const [
     allTimeSlots,
+    allDays,
     allRealms,
     allVariants,
     allTiers,
@@ -50,6 +49,8 @@ function Filters() {
     setName,
     slots,
     setSlots,
+    days,
+    setDays,
     realms,
     setRealms,
     variants,
@@ -62,6 +63,7 @@ function Filters() {
     setStreaming,
   ] = useFilterStore((s) => [
     s.allTimeSlots,
+    s.allDays,
     s.allRealms,
     s.allVariants,
     s.allTiers,
@@ -69,6 +71,8 @@ function Filters() {
     s.setName,
     s.slots,
     s.setSlots,
+    s.days,
+    s.setDays,
     s.realms,
     s.setRealms,
     s.variants,
@@ -84,6 +88,9 @@ function Filters() {
     return sName || "";
   }, [sName]);
 
+  const dayStrings = useMemo(() => {
+    return (allDays || []).map((slot) => slot.text);
+  }, [allDays]);
   const timeStrings = useMemo(() => {
     return (allTimeSlots || []).map((slot) => slot.text);
   }, [allTimeSlots]);
@@ -91,6 +98,14 @@ function Filters() {
     const fs = [];
     if (name?.length) {
       fs.push(`Name: ${name}`);
+    }
+    if (days?.length) {
+      fs.push(
+        `Days: ${days
+          .sort()
+          .map((day) => dayStrings[day])
+          .join(", ")}`,
+      );
     }
     if (slots?.length) {
       fs.push(
@@ -120,7 +135,15 @@ function Filters() {
       filterString: fs.join(", "),
       filterCount: fs.length,
     };
-  }, [name, slots, realms, variants, tiers, playTest, streaming]);
+  }, [name, days, slots, realms, variants, tiers, playTest, streaming]);
+
+  const dayVals = useMemo(() => {
+    return allDays.filter((day) => days.includes(day.value));
+  }, [allDays, days]);
+
+  const timeSlotVals = useMemo(() => {
+    return allTimeSlots.filter((slot) => slots.includes(slot.value));
+  }, [allTimeSlots, slots]);
 
   const realmVals = useMemo(() => {
     if (realms?.length) {
@@ -165,6 +188,7 @@ function Filters() {
               variant="contained"
               onClick={() => {
                 setName("");
+                setDays([]);
                 setSlots([]);
                 setRealms([]);
                 setVariants([]);
@@ -227,26 +251,26 @@ function Filters() {
             value={name}
             onChange={(evt) => setName(evt.target.value)}
           />
-          <Box sx={{ width: "100%", display: "grid", gridTemplateColumns: "50% 50%" }}>
-            {allTimeSlots.map((slot) => (
-              <FormControlLabel
-                key={`${slot.value}_${slot.text}`}
-                checked={slots.some((s) => s === slot.value)}
-                control={
-                  <Checkbox
-                    onChange={(evt) => {
-                      if (evt.target.checked) {
-                        setSlots([...slots, slot.value]);
-                      } else {
-                        setSlots(slots.filter((s) => s !== slot.value));
-                      }
-                    }}
-                  />
-                }
-                label={<FormHelperText>{slot.text}</FormHelperText>}
-              />
-            ))}
-          </Box>
+          <Autocomplete
+            multiple
+            id="combo-box-days"
+            options={allDays}
+            getOptionLabel={(slot) => slot.text}
+            getOptionKey={(slot) => slot.value}
+            value={dayVals}
+            onChange={(evt, value) => setDays(value.map((val) => val.value))}
+            renderInput={(params) => <TextField {...params} label="Days" />}
+          />
+          <Autocomplete
+            multiple
+            id="combo-box-slots"
+            options={allTimeSlots}
+            getOptionLabel={(slot) => slot.text}
+            getOptionKey={(slot) => slot.value}
+            value={timeSlotVals}
+            onChange={(evt, value) => setSlots(value.map((val) => val.value))}
+            renderInput={(params) => <TextField {...params} label="Time Slots" />}
+          />
           <Autocomplete
             multiple
             id="combo-box-realms"
