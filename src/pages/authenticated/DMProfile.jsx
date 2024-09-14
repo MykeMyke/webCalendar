@@ -30,7 +30,7 @@ export default function DMProfile() {
         setProfileExists(true);
         setDMName(result.data.name);
         setDMDescription(result.data.description);
-        setDMRuleText(result.data.rule_text);
+        setDMRuleText(result.data.rules_text);
         setDMMusterText(result.data.muster_text);
       })
       .finally(() => {
