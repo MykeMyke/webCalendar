@@ -73,6 +73,12 @@ const Game = ({ props, activeName, isLoading, joinGame, isJoining, dropGame, isD
     standby,
   } = props;
 
+  const sortByWaitlist = (players) => {
+    return players.sort((x, y) => {
+      return x.waitlist - y.waitlist;
+    });
+  };
+
   return (
     <Card raised={true} sx={{ maxWidth: 450 }}>
       <CardContent sx={{ pt: 0.75, pb: 0.2, "&:last-child": { pb: 0 } }}>
@@ -149,7 +155,7 @@ const Game = ({ props, activeName, isLoading, joinGame, isJoining, dropGame, isD
             <Box p={1} textAlign="center" sx={{ flexGrow: 1 }}>
               <Typography variant="body1" color="text.primary">
                 Waitlist{" "}
-                <PlayerTooltip gameKey={`${dm_name}_${datetime}_waitlisted`} players={standby}>
+                <PlayerTooltip gameKey={`${dm_name}_${datetime}_waitlisted`} players={sortByWaitlist(standby)}>
                   l
                 </PlayerTooltip>
               </Typography>
