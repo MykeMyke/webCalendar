@@ -23,6 +23,13 @@ export default function GameCardActions({
     return ReleaseDate(datetime_release, datetime_open_release);
   }
 
+  const userAllowedJoin = () => {
+    if (datetime_open_release.getTime() < now.getTime()) return true;
+    else if (user.patreon && datetime_release?.getTime() < now.getTime()) return true;
+    else if (user.resDM && datetime_release?.getTime() < now.getTime()) return true;
+    return false;
+  };
+
   if (!is_dm) {
     if (playing || standingBy) {
       return (
@@ -39,7 +46,7 @@ export default function GameCardActions({
         </Button>
       );
     }
-    if ((user.patreon && datetime_release?.getTime() < now.getTime()) || datetime_open_release.getTime() < now.getTime()) {
+    if (userAllowedJoin()) {
       return (
         <Button
           aria-describedby={`join-${id}`}
