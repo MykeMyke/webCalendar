@@ -1,9 +1,10 @@
-import * as React from "react";
+import React, { useState } from "react";
 
 import { Button } from "@mui/material";
 
 import { ReleaseDate } from "../../utils/releasedate";
 import useUserStore from "../../stores/useUserStore";
+import ConfirmDialog from "./ConfirmDialog";
 
 export default function GameCardActions({
   id,
@@ -18,6 +19,7 @@ export default function GameCardActions({
   dropGame,
 }) {
   const user = useUserStore((s) => s.user);
+  const [showConfirm, setShowConfirm] = useState(false);
   const now = new Date();
   if (!user?.loggedIn) {
     return ReleaseDate(datetime_release, datetime_open_release);
@@ -33,17 +35,25 @@ export default function GameCardActions({
   if (!is_dm) {
     if (playing || standingBy) {
       return (
-        <Button
-          aria-describedby={`drop-${id}`}
-          variant="outlined"
-          disabled={isJoining}
-          onClick={() => dropGame({ id, name })}
-          size="small"
-          sx={{ pt: 0.25, pb: 0, mt: 0.4, mb: 1.1, mr: 1 }}
-          color="secondary"
-        >
-          Drop Now
-        </Button>
+        <React.Fragment>
+          <Button
+            aria-describedby={`drop-${id}`}
+            variant="outlined"
+            disabled={isJoining}
+            onClick={() => setShowConfirm(true)}
+            size="small"
+            sx={{ pt: 0.25, pb: 0, mt: 0.4, mb: 1.1, mr: 1 }}
+            color="secondary"
+          >
+            Drop Now
+          </Button>
+          <ConfirmDialog
+            open={showConfirm}
+            onClose={() => setShowConfirm(false)}
+            onConfirm={() => dropGame({ id, name })}
+            gameName={name}
+          />
+        </React.Fragment>
       );
     }
     if (userAllowedJoin()) {
