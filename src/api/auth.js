@@ -6,7 +6,6 @@ import { hasDMRank } from "../utils/ranks";
 import useUserStore from "../stores/useUserStore";
 import { useShallow } from "zustand/react/shallow";
 
-
 export function getUserDetails() {
   return axios.get(`${apiHost}/auth/user_details`, { withCredentials: true });
 }
@@ -20,7 +19,9 @@ function login() {
 }
 
 export default function useUser() {
-  const [user, setUser, setIsLoading, setMethods] = useUserStore(useShallow((s) => [s.user, s.setUser, s.setIsLoading, s.setMethods]))
+  const [user, setUser, setIsLoading, setMethods] = useUserStore(
+    useShallow((s) => [s.user, s.setUser, s.setIsLoading, s.setMethods]),
+  );
   const queryClient = useQueryClient();
   const { data, isFetching, status } = useQuery({
     queryKey: ["user_data"],
@@ -29,21 +30,23 @@ export default function useUser() {
       let us;
       if (u.data?.user_data) {
         us = {
-          ...u.data.user_data, loggedIn: true,
-          patreon: u.data.user_data.ranks?.filter(rank => rank.patreon).length,
+          ...u.data.user_data,
+          loggedIn: true,
+          patreon: u.data.user_data.ranks?.filter((rank) => rank.patreon).length,
+          resDM: u.data.user_data.ranks?.filter((rank) => rank.name.startsWith("ResDM")).length,
           credits: u.data.user_data.ranks?.reduce((tot, rank) => tot + rank.max_games, 0) || 0,
-          isDm: hasDMRank(u.data.user_data.ranks)
-        }
+          isDm: hasDMRank(u.data.user_data.ranks),
+        };
       } else {
         us = { loggedIn: false };
       }
       setUser(us);
       return us;
-    }
+    },
   });
   useEffect(() => {
-    setIsLoading(status === 'pending'); 
-  }, [status])
+    setIsLoading(status === "pending");
+  }, [status]);
 
   const logoutMutation = useMutation({
     queryKey: ["logout"],
@@ -56,8 +59,8 @@ export default function useUser() {
   });
 
   useEffect(() => {
-    setMethods({ in: login, out: logoutMutation.mutate })
-  }, [logoutMutation, setMethods])
+    setMethods({ in: login, out: logoutMutation.mutate });
+  }, [logoutMutation, setMethods]);
   return {
     user,
     login,
