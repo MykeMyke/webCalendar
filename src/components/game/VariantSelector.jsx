@@ -3,8 +3,13 @@ import { useFormikContext } from "formik";
 import { FormControl, FormHelperText, InputLabel } from "@mui/material";
 import { Select, MenuItem, Divider } from "@mui/material";
 
+import useUserStore from "../../stores/useUserStore";
+
 export default function VariantSelector(props) {
-  const { values, errors, handleChange } = useFormikContext(); 
+  const { values, errors, handleChange } = useFormikContext();
+  const { user } = useUserStore();
+
+  console.log(user);
 
   return (
     <FormControl fullWidth error={!!errors.variant}>
