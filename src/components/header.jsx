@@ -18,13 +18,13 @@ const Header = () => {
     <Box sx={{ justifyContent: "space-between", color: "red" }}>
       <AppBar position="fixed">
         <Toolbar>
-          <Grid container direction="row" spacing={1.8} textAlign="center" alignItems="center" sx={{ mb: 0.6 }}>
+          <Grid container direction="row" spacing={1.4} textAlign="center" alignItems="center" sx={{ mb: 0.6 }}>
             <Grid item>
               <NavLink
                 style={({ isActive }) => {
                   return {
                     color: isActive ? "red" : "White",
-                    fontSize: "0.85rem",
+                    fontSize: "0.75rem",
                     fontWeight: 500,
                     textDecoration: "none",
                   };
@@ -40,7 +40,7 @@ const Header = () => {
                 style={({ isActive }) => {
                   return {
                     color: isActive ? "red" : "White",
-                    fontSize: "0.85rem",
+                    fontSize: "0.75rem",
                     fontWeight: 500,
                     textDecoration: "none",
                   };
@@ -56,7 +56,7 @@ const Header = () => {
                 style={({ isActive }) => {
                   return {
                     color: isActive ? "red" : "White",
-                    fontSize: "0.85rem",
+                    fontSize: "0.75rem",
                     fontWeight: 500,
                     textDecoration: "none",
                   };
@@ -64,7 +64,7 @@ const Header = () => {
                 to="/team"
                 activeclassname="is-active"
               >
-                Meet The <br></br>Team
+                The <br></br>Team
               </NavLink>
             </Grid>
             <Grid item>
@@ -72,7 +72,7 @@ const Header = () => {
                 style={({ isActive }) => {
                   return {
                     color: isActive ? "red" : "White",
-                    fontSize: "0.85rem",
+                    fontSize: "0.75rem",
                     fontWeight: 500,
                     textDecoration: "none",
                   };
