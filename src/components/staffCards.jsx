@@ -19,11 +19,7 @@ const Staff = (staff) => {
         <CardContent>
           <div alignItems="center" className="staffCard">
             <div className="name">
-              <Typography
-                variant="h4"
-                color="text.primary"
-                sx={{ mb: 1, textAlign: "center" }}
-              >
+              <Typography variant="h4" color="text.primary" sx={{ mb: 1, textAlign: "center" }}>
                 {staff.name}
               </Typography>
             </div>
@@ -36,25 +32,18 @@ const Staff = (staff) => {
                     src={staff.image}
                     alt={staff.position}
                     className="staff-image"
+                    style={{ height: "50px", width: "auto", objectFit: "contain" }}
                   />
                 </div>
                 <div></div>
               </div>
-              <Typography
-                variant="h5"
-                color="text.secondary"
-                sx={{ textAlign: "center", fontWeight: "bold" }}
-              >
+              <Typography variant="h5" color="text.secondary" sx={{ textAlign: "center", fontWeight: "bold" }}>
                 {staff.position}
               </Typography>
               <Divider variant="middle" sx={{ my: 0.8 }} />
             </div>
             <div className="responsibilities">
-              <Typography
-                variant="subtitle2"
-                color="text.secondary"
-                sx={{ textAlign: "center" }}
-              >
+              <Typography variant="subtitle2" color="text.secondary" sx={{ textAlign: "center" }}>
                 <ul style={{ listStyleType: "none", paddingLeft: 0 }}>
                   {staff.responsibilities.map((role) => (
                     <li style={{ paddingBottom: 5 }}>{role}</li>
@@ -64,11 +53,7 @@ const Staff = (staff) => {
             </div>
             <div className="quote">
               <Divider variant="middle" sx={{ my: 0.8 }} />
-              <Typography
-                variant="subtitle2"
-                color="text.secondary"
-                sx={{ textAlign: "center", fontStyle: "italic", mb: -1.5 }}
-              >
+              <Typography variant="subtitle2" color="text.secondary" sx={{ textAlign: "center", fontStyle: "italic", mb: -1.5 }}>
                 {staff.quote}
               </Typography>
             </div>
