@@ -22,20 +22,15 @@ function Team() {
               className="header-art"
             /> */}
             <Typography variant="h2" sx={{ my: 1, textAlign: "center" }}>
-              Staff Members
+              Council Members
             </Typography>
           </div>
           <div></div>
         </div>
-        <Typography
-          variant="body"
-          color="text.primary"
-          sx={{ px: 3, maxWidth: "1080px", alignSelf: "center" }}
-        >
-          The Staff of Triden Games are here to help each of their functions run
-          smoothly for our members. They give everybody the best possible
-          experience by empowering and advising their team members, and
-          troubleshooting for users.
+        <Typography variant="body" color="text.primary" sx={{ px: 3, maxWidth: "1080px", alignSelf: "center" }}>
+          The Council of Triden Games is made up of veterans of the community that help each of their functions run smoothly for our
+          members. They give everybody the best possible experience by empowering and advising members in their respective areas -
+          whatever you need, they can help you out!
         </Typography>
         <Divider variant="middle" sx={{ py: 1 }} />
         <div className="centraliser">
@@ -53,23 +48,14 @@ function Team() {
         <div className="centraliser">
           <div></div>
           <div>
-            <img
-              src="/img/Resident-DMs.png"
-              alt="Triden Games Resident DMs"
-              className="header-art"
-            />
+            <img src="/img/Resident-DMs.png" alt="Triden Games Resident DMs" className="header-art" />
           </div>
           <div></div>
         </div>
-        <Typography
-          variant="body"
-          color="text.primary"
-          sx={{ px: 3, maxWidth: "1080px", alignSelf: "center" }}
-        >
-          The Resident DMs are a dedicated group from all around the world who
-          each month run a pre-released schedule of Adventurer's League games.
-          These games are run in all timezones and feature some of the best
-          production value, toolsets and streamlining around.
+        <Typography variant="body" color="text.primary" sx={{ px: 3, maxWidth: "1080px", alignSelf: "center" }}>
+          The Resident DMs are a dedicated group from all around the world who each month run a pre-released schedule of
+          Adventurer's League games. These games are run in all timezones and feature some of the best production value, toolsets
+          and streamlining around.
         </Typography>
         <div className="centraliser">
           <div></div>
